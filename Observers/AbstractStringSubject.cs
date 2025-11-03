@@ -1,8 +1,25 @@
 namespace Observers
 {
-    public class AbstractStringSubject : ISubject<AbstractStringSubject>
+    public abstract class AbstractStringSubject : ISubject<AbstractStringSubject>
     {
         private readonly ICollection<IObserver<AbstractStringSubject>> observers;
+
+        private string item;
+        public string Item
+        {
+            get => item;
+            protected set
+            {
+                if (value != item)
+                {
+                    item = value;
+                    foreach (IObserver<AbstractStringSubject> obs in observers)
+                    {
+                        obs.Update(this);
+                    }
+                }
+            }
+        }
 
         public AbstractStringSubject()
         {
